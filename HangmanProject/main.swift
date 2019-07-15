@@ -16,11 +16,20 @@ var lettersUsed = [String]()
 var randomWord = allTheWords.randomElement()!
 var input = String()
 var currentAnswer = String()
+var lettersYetToBeUsed: Set<String> = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+var alphabet: Set<String> = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+
 
 func getInput(){
     print("Pick a letter", terminator:" ")
     input = readLine()!
-    if lettersUsed.contains(input){
+    
+    while(input.count > 1 || (!alphabet.contains(input))){
+        print("Error: Please print one letter")
+        input = readLine()!
+    }
+    
+    while(lettersUsed.contains(input)){
         print("Letter picked before.  Pick new letter", terminator:" ")
         input = readLine()!
     }
@@ -50,16 +59,19 @@ func updateGameStatus(){
     if numOfWrongGuesses == 6{
         print("Game Over!")
         print("The Word is: \(randomWord)")
+        //playAgain()
         inProgress = false
     }
     else if currentAnswer == randomWord{
         print("You win! Good Job!")
+        //playAgain()
     }
     else{
     print(currentAnswer)
     print("Letters Used: \(lettersUsed)")
     print("Number of wrong guesses \(numOfWrongGuesses)")
         print()}
+    print("Letters left: \(Array(lettersYetToBeUsed.subtracting(Set(lettersUsed))).sorted())")
 }
 
 func drawing(){
@@ -99,6 +111,23 @@ func drawing(){
         print("No Wrong Guesses so Far")
     }
 }
+
+//func playAgain(){
+//    print("Play again? Y/N")
+//    var again = readLine()!
+//
+//    while again != "Y" || again != "N" {
+//        print("Error: Play again? Y/N")
+//        again = readLine()!
+//    }
+//
+//    if again.uppercased() == "Y"{
+//        playGame()
+//    }else if again == "N"{
+//        exit(0)
+//    }
+//}
+
 
 func playGame(){
     while(inProgress){
